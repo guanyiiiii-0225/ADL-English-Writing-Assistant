@@ -6,3 +6,4 @@ datasets
 scipy
 tyro
 python-dotenv
+jsonformer
