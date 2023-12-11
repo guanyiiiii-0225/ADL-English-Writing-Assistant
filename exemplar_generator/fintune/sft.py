@@ -42,7 +42,7 @@ class ScriptArguments:
     log_with: Optional[str] = field(default="none", metadata={"help": "use 'wandb' to log with wandb"})
     learning_rate: Optional[float] = field(default=1.41e-5, metadata={"help": "the learning rate"})
     batch_size: Optional[int] = field(default=64, metadata={"help": "the batch size"})
-    seq_length: Optional[int] = field(default=512, metadata={"help": "Input sequence length"})
+    seq_length: Optional[int] = field(default=1000, metadata={"help": "Input sequence length"})
     gradient_accumulation_steps: Optional[int] = field(
         default=16, metadata={"help": "the number of gradient accumulation steps"}
     )
@@ -76,10 +76,17 @@ class ScriptArguments:
 def formatting_prompts_func(example):
     output_texts = []
     for i in range(len(example['question'])):
-        text = f"### Question: {example['question'][i]}\n ### Answer: {example['answer'][i]}"
+        system_prompt = "You are an artificial intelligence English writing assistant. The following are English composition test questions. You will provide answers that are useful, safe, detailed, and polite. Please provide examples of good writing for the following English essay questions. The narrative of the essay conforms to the answer instructions, the content is complete, and the organization is coherent; the grammar, sentence structure, word usage, and spelling are all good."
+        text = f"<s>
+                    [INST] 
+                        <<SYS>> {system_prompt} <</SYS>> 
+                        {example['question'][i]} 
+                    [/INST] 
+                    {example['answer'][i]} 
+                </s>"
+        
         output_texts.append(text)
     return output_texts
-
 
 parser = HfArgumentParser(ScriptArguments)
 script_args = parser.parse_args_into_dataclasses()[0]
