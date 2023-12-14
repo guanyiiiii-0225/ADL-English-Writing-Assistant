@@ -17,3 +17,9 @@ pip install -r requirements.txt
 huggingface-cli login
 ```
 and enter your hugginface token
+
+
+## Run streamlit
+```
+streamlit run streamlit.py
+```

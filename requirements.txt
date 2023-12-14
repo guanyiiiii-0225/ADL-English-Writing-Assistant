@@ -7,3 +7,4 @@ scipy
 tyro
 python-dotenv
 jsonformer
+streamlit
