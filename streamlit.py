@@ -1,5 +1,8 @@
 import streamlit as st
 
+from grammar_checker.inter import generate_html
+from grammar_checker.extract2 import extract_from_html
+
 def image_to_text(image):
     # convert the image to text
     image_description = "This is an image."
@@ -15,7 +18,12 @@ def generate_example(question):
 
 def generate_correction_html(question, answer):
     # generate the correction
-    correction_html = "<div style='background-color: #f0f0f0; padding: 30px 30px 30px 30px;'>I agree with the trend of universities encouraging professors to teach professional courses in English. This approach has several benefits. Firstly, it exposes students to a broader range of academic literature and research, as English is the lingua franca of higher education. This helps students to develop a more nuanced understanding of their field and stay up-to-date with the latest developments. Secondly, teaching in English promotes a more diverse and inclusive learning environment, as students from different countries and backgrounds can participate and engage with the course materials more easily.\n\nIf I were to enroll in a future university where the required courses are taught in English, I would embrace this opportunity to improve my language skills and broaden my academic horizons. I would take advantage of resources such as language support services and peer mentorship programs to help me succeed in these courses. Additionally, I would actively seek out opportunities to engage with course materials and participate in class discussions, using my knowledge of English to contribute to the learning environment. Overall, I believe that teaching professional courses in English is a valuable approach that can enhance the academic experience for students from diverse backgrounds.</div>"
+    generate_html(answer)
+    correction_html = "<div style='background-color: #f0f0f0; padding: 30px 30px 30px 30px; word-wrap:break-word'>"
+    data = extract_from_html()
+    data = data.replace("&nbsp;", " ")
+    correction_html += data
+    correction_html += "</div><br>"
     return correction_html
 
 def grade_answer(question, answer):
@@ -29,6 +37,17 @@ def grade_answer(question, answer):
 # start the app
 st.title("Your English Writing Assistant🎯")
 st.write("Please upload the question. We will give you some suggestions to improve your writing! 📝")
+
+st.markdown('''<style type="text/css">
+        table.diff {font-family:Courier; border:medium;}
+        .diff_header {background-color:#e0e0e0}
+        td.diff_header {text-align:right}
+        .diff_next {background-color:#c0c0c0}
+        .diff_add {background-color:#aaffaa}
+        .diff_chg {background-color:#ffff77}
+        .diff_sub {background-color:#ffaaaa}
+    </style>''', unsafe_allow_html=True)
+
 question = st.text_area("Question*", height=100)
 st.write("If there are images in the question, please upload them here.")
 # upload the image
@@ -91,4 +110,3 @@ with tab2:
             st.write("💡 Your grade:", grade)
             st.write("💡 Feedback:")
             st.markdown(f"<div style='background-color: #f0f0f0; padding: 30px 30px 30px 30px;'>{feedback}</div>", unsafe_allow_html=True)
-
