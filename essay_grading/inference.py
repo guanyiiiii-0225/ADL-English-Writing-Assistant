@@ -53,7 +53,7 @@ def get_system_prompt():
     return prompt
 
 def get_example_prompt(problem: str, content: str, output: str):
-    prompt = f"[INST]The following is the topic of this exam: {problem}\nThe following is the essay content to be graded:\n{content}.\n\nPlease read this essay and score each grading item: [/INST]\n{output}</s>\n"
+    prompt = f"[INST]The following is the topic of this exam: {problem}\nThe following is the essay content to be graded:\n{content}.\n\nPlease read this essay and score each grading item: [/INST]\n{output}\n</s><s>"
     # print(prompt)
     return prompt
 
@@ -64,7 +64,7 @@ def get_user_prompt(problem: str, content: str):
 def get_prompt(problem, content, examples):
     example_indices = [0, 1, 2]
     prompt = f"<s>[INST] <<SYS>>{get_system_prompt()}<</SYS>>[/INST]{''.join([get_example_prompt(examples[ind]['problem'], examples[ind]['content'], examples[ind]['output']) for ind in example_indices])}{get_user_prompt(problem, content)}"
-    print(prompt)
+    # print(prompt)
     return prompt
 
 def inference_raw(pipe, tokenizer, problem, content, examples):
@@ -134,7 +134,7 @@ def inference_raw(pipe, tokenizer, problem, content, examples):
 
 
 def grade(test_data_path, example_data_path, output_path):
-    model_name = "togethercomputer/LLaMA-2-7B-32K"
+    model_name = "togethercomputer/Llama-2-7B-32K-Instruct"
 
     quant_config = BitsAndBytesConfig(
         load_in_4bit=True,
@@ -169,7 +169,7 @@ def grade(test_data_path, example_data_path, output_path):
 
     answers = []
 
-    for x in dataset["example"]:
+    for x in dataset["test"]:
         # output = inference(model, tokenizer, x["problem"], x["content"], dataset["example"])
         output = inference_raw(pipe, tokenizer, x["problem"], x["content"], dataset["example"])
         print(output)
