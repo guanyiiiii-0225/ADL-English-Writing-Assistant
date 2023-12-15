@@ -16,7 +16,7 @@ def generate_example(question):
     example = "I agree with the trend of universities encouraging professors to teach professional courses in English. This approach has several benefits. Firstly, it exposes students to a broader range of academic literature and research, as English is the lingua franca of higher education. This helps students to develop a more nuanced understanding of their field and stay up-to-date with the latest developments. Secondly, teaching in English promotes a more diverse and inclusive learning environment, as students from different countries and backgrounds can participate and engage with the course materials more easily.\n\nIf I were to enroll in a future university where the required courses are taught in English, I would embrace this opportunity to improve my language skills and broaden my academic horizons. I would take advantage of resources such as language support services and peer mentorship programs to help me succeed in these courses. Additionally, I would actively seek out opportunities to engage with course materials and participate in class discussions, using my knowledge of English to contribute to the learning environment. Overall, I believe that teaching professional courses in English is a valuable approach that can enhance the academic experience for students from diverse backgrounds."
     return example
 
-def generate_correction_html(question, answer):
+def generate_correction_html(answer):
     # generate the correction
     generate_html(answer)
     correction_html = "<div style='background-color: #f0f0f0; padding: 30px 30px 30px 30px; word-wrap:break-word'>"
@@ -28,9 +28,8 @@ def generate_correction_html(question, answer):
 
 def grade_answer(question, answer):
     # grade the answer
-    grade = 100
     feedback = "This is the feedback."
-    return grade, feedback
+    return feedback
 
 
 
@@ -101,12 +100,11 @@ with tab2:
 
         with st.spinner("Grading..."):
             # generate the correction
-            correction_html = generate_correction_html(question, answer)
+            correction_html = generate_correction_html(answer)
             st.write("💡 The correction:")
             st.markdown(correction_html, unsafe_allow_html=True)
 
             # grade the answer
-            grade, feedback = grade_answer(question, answer)
-            st.write("💡 Your grade:", grade)
+            feedback = grade_answer(question, answer)
             st.write("💡 Feedback:")
             st.markdown(f"<div style='background-color: #f0f0f0; padding: 30px 30px 30px 30px;'>{feedback}</div>", unsafe_allow_html=True)
