@@ -49,7 +49,7 @@ def main(args):
 
     output = []
     for test in tqdm(input):
-        system_prompt = "You are an artificial intelligence English writing assistant. The following are English composition test questions. You will provide answers that are useful, safe, detailed, and polite. Please directly provide good writing examples for the following English essay questions without any other irrelevant output. The narrative of the essay conforms to the answer instructions, the content is complete, and the organization is coherent; the grammar, sentence structure, word usage, and spelling are all good."
+        system_prompt = ""
         user_message = test["question"]
         text = (
             f"<s>[INST] <<SYS>>\n{system_prompt}\n<</SYS>>\n\n{user_message} [/INST]\n"
@@ -61,15 +61,15 @@ def main(args):
             top_k=10,
             num_return_sequences=1,
             eos_token_id=tokenizer.eos_token_id,
-            max_length=1024,
+            max_length=2048,
         )
 
         result = test
         result["answer"] = sequences[0]["generated_text"].replace(text, "")
         output.append(result)
 
-    with open(args.output_file, "w") as output_file:
-        json.dump(output, output_file, indent=4)
+    with open(args.output_file, mode="w", newline="", encoding="utf-8") as output_file:
+        json.dump(output, output_file, ensure_ascii=False, indent=4)
 
 
 if __name__ == "__main__":
