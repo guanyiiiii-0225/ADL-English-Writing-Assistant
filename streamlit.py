@@ -1,12 +1,27 @@
 import streamlit as st
+from PIL import Image
 
 from grammar_checker.inter import generate_html
 from grammar_checker.extract2 import extract_from_html
 
-def image_to_text(image):
-    # convert the image to text
-    image_description = "This is an image."
-    return image_description
+def image_to_text(images_paths):
+    description_arr = []
+    for image_path in images_paths:
+        image = Image.open(image_path).convert('RGB')
+        # convert the image to text
+        image_description = "This is an image."
+        description_arr.append(image_description)
+
+    return description_arr
+
+def extend_question(question, image_description_arr):
+    # add the image descriptions to the question
+    question += "\n\n"
+    for desc in image_description_arr:
+        question += desc
+        question += "\n\n"
+    
+    return question
 
 def generate_example(question):
     # wait 1 seconds
@@ -50,11 +65,14 @@ st.markdown('''<style type="text/css">
 question = st.text_area("Question*", height=100)
 st.write("If there are images in the question, please upload them here.")
 # upload the image
-image = st.file_uploader("Upload the image (optional)", type=["png", "jpg", "jpeg"])
-if image is not None:
+images_paths = st.file_uploader("Upload the images (optional, accept mutilple images)", type=["png", "jpg", "jpeg"], accept_multiple_files=True)
+
+if len(images_paths) > 0:
     # convert the image to text
-    image_description = image_to_text(image)
-    question += " Image description: " + image_description
+    image_description_arr = image_to_text(images_paths)
+
+    # add the image description to the question
+    question = extend_question(question, image_description_arr)
 
 st.write("")
 st.write("👉 **Please choose to generate the example answer or upload your own answer.** 👈")

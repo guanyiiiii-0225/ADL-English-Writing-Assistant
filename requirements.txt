@@ -8,3 +8,4 @@ tyro
 python-dotenv
 jsonformer
 streamlit
+selenium
