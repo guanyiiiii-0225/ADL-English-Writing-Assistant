@@ -43,7 +43,10 @@ def generate_correction_html(answer):
     generate_html(answer)
     correction_html = "<div style='background-color: #f0f0f0; padding: 30px 30px 30px 30px; word-wrap:break-word'>"
     data = extract_from_html()
+    print(data.count("diff_add"), data.count("diff_chg"), data.count("diff_sub"))
     data = data.replace("&nbsp;", " ")
+    correction_html += "<strong>We have " + str(data.count("diff_add")+data.count("diff_chg")+data.count("diff_sub")) + " suggestions for your essay! </strong><br>"
+    correction_html += '<span class="diff_add">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> = Added, &nbsp;&nbsp;&nbsp;<span class="diff_chg">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> = Changed, &nbsp;&nbsp;&nbsp;<span class="diff_sub">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> = Deleted <br><br>'
     correction_html += data
     correction_html += "</div><br>"
     return correction_html
