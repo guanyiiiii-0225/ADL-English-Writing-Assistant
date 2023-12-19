@@ -3,6 +3,7 @@ from PIL import Image
 
 from grammar_checker.inter import generate_html
 from grammar_checker.extract2 import extract_from_html
+from image_to_text.demo_instructblip import generate_image_description
 
 def image_to_text(images_paths):
     description_arr = []
