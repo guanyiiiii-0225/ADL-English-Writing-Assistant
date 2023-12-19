@@ -38,7 +38,7 @@ def generate_correction_html(answer):
     data = extract_from_html()
     print(data.count("diff_add"), data.count("diff_chg"), data.count("diff_sub"))
     data = data.replace("&nbsp;", " ")
-    correction_html += "<strong>Found " + str(data.count("diff_add")+data.count("diff_chg")+data.count("diff_sub")) + " errors in your answer! </strong><br>"
+    correction_html += "<strong>We have " + str(data.count("diff_add")+data.count("diff_chg")+data.count("diff_sub")) + " suggestions for your essay! </strong><br>"
     correction_html += '<span class="diff_add">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> = Added, &nbsp;&nbsp;&nbsp;<span class="diff_chg">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> = Changed, &nbsp;&nbsp;&nbsp;<span class="diff_sub">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> = Deleted <br><br>'
     correction_html += data
     correction_html += "</div><br>"
