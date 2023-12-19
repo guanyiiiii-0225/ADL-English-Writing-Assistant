@@ -63,7 +63,7 @@ st.markdown('''<style type="text/css">
     </style>''', unsafe_allow_html=True)
 
 question = st.text_area("Question*", height=100)
-st.write("If there are images in the question, please upload them here.")
+st.write("If there is an image associated with the question, kindly upload it here. For a single image, the file should be named 0001. In case of multiple images, please name them sequentially.")
 # upload the image
 images_paths = st.file_uploader("Upload the images (optional, accept mutilple images)", type=["png", "jpg", "jpeg"], accept_multiple_files=True)
 
