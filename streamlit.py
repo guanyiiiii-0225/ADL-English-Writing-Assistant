@@ -7,20 +7,10 @@ from image_to_text.demo_instructblip import generate_image_description
 from exemplar_generator.inference.generate_writing import generate_writing_without_finetune
 
 
+
 def image_to_text(images_paths):
 
     description_arr = generate_image_description(images_paths)
-    '''
-    description_arr = []
-    for image_path in images_paths:
-        #image = Image.open(image_path).convert('RGB')
-        # convert the image to text
-        #image_description = "This is an image."
-        #print(image_path)
-        image_description = 'i am description'
-        #print(image_description)
-        description_arr.append(image_description)
-    '''
     return description_arr
 
 def extend_question(question, image_description_arr):

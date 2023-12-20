@@ -2,6 +2,7 @@ from transformers import InstructBlipProcessor, InstructBlipForConditionalGenera
 import torch
 from PIL import Image
 import requests
+from image_to_text.get_translate import translate_image_to_text
 
 def generate_image_description(images_paths, prompt="Can you describe this image in detail?"):
     
@@ -19,7 +20,7 @@ def generate_image_description(images_paths, prompt="Can you describe this image
             outputs = model.generate(
                 **inputs,
                 do_sample=False,
-                num_beams=3,
+                num_beams=1,
                 max_length=256,
                 min_length=1,
                 top_p=0.9,
@@ -29,6 +30,8 @@ def generate_image_description(images_paths, prompt="Can you describe this image
             )
             generated_text = processor.batch_decode(outputs, skip_special_tokens=True)[0].strip()
             image_description = generated_text
+            image.save('./upload.png','png')
+            image_description += 'The text in this image: '+ translate_image_to_text('./upload.png')
             print(image_description)
             description_arr.append(image_description)
         del model
