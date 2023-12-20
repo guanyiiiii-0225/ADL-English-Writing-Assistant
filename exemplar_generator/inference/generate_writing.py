@@ -1,6 +1,7 @@
 from transformers import AutoTokenizer, AutoModelForCausalLM, BitsAndBytesConfig
 import transformers
 import torch
+import gc
 
 model_name = "meta-llama/Llama-2-13b-chat-hf"
 
@@ -39,6 +40,10 @@ def generate_writing_without_finetune(guide):
         eos_token_id=tokenizer.eos_token_id,
         max_length=2048,
     )
+
+    del model, pipeline
+    gc.collect()
+    torch.cuda.empty_cache()
 
     return sequences[0]["generated_text"].replace(text, "")
 
