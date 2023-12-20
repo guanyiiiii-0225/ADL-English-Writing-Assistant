@@ -1,5 +1,6 @@
 # 2023-ADL-Final
-## Prepare Enviroment
+## Install Chrome browser and download corresponding chromedriver
+## Prepare Enviroment 
 ```
 conda create --name adl-final python=3.11.0
 conda activate adl-final
@@ -11,6 +12,7 @@ conda install pytorch==2.1.0 torchvision==0.16.0 torchaudio==2.1.0 pytorch-cuda=
 
 ```
 pip install -r requirements.txt
+sudo apt install xcilp
 ```
 
 ```

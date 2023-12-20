@@ -10,3 +10,4 @@ jsonformer
 streamlit
 selenium
 Pillow
+opencv-python
