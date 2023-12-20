@@ -7,12 +7,13 @@ from image_to_text.demo_instructblip import generate_image_description
 from exemplar_generator.inference.generate_writing import generate_writing_without_finetune
 
 
-
+@st.cache_data
 def image_to_text(images_paths):
 
     description_arr = generate_image_description(images_paths)
     return description_arr
 
+@st.cache_data
 def extend_question(question, image_description_arr):
     # add the image descriptions to the question
     if len(image_description_arr) == 1:
@@ -25,11 +26,13 @@ def extend_question(question, image_description_arr):
     
     return question
 
+@st.cache_data
 def generate_example(question):
     # generate the example answer
     example = generate_writing_without_finetune(question)
     return example
 
+@st.cache_data
 def generate_correction_html(answer):
     # generate the correction
     generate_html(answer)
@@ -43,6 +46,7 @@ def generate_correction_html(answer):
     correction_html += "</div><br>"
     return correction_html
 
+@st.cache_data
 def grade_answer(question, answer):
     # grade the answer
     feedback = "This is the feedback."
