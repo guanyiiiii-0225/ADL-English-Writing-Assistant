@@ -3,6 +3,7 @@ import torch
 from PIL import Image
 import requests
 from image_to_text.get_translate import translate_image_to_text
+import gc
 
 def generate_image_description(images_paths, prompt="Can you describe this image in detail?"):
     
@@ -35,6 +36,7 @@ def generate_image_description(images_paths, prompt="Can you describe this image
             print(image_description)
             description_arr.append(image_description)
         del model
+        gc.collect()
         torch.cuda.empty_cache()
     
 
