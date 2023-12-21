@@ -4,13 +4,16 @@ from selenium.webdriver.edge.options import Options
 import time
 import streamlit as st
 import pandas as pd
+import os
+
+
 
 def extract_from_html():
     edge_options = Options()
     edge_options.add_argument('--headless')
     driver = webdriver.Edge(options=edge_options)
     # Need absolute address in this function
-    driver.get('C:/Users/Linnn/Desktop/2023-ADL-Final/grammar_checker/1213_diff.html')
+    driver.get(os.path.abspath(r'grammar_checker/1213_diff.html'))
 
     td = driver.find_elements(By.CSS_SELECTOR, 'td.diff_header + td')
     data = ""
