@@ -32,7 +32,9 @@ def generate_image_description(images_paths, prompt="Can you describe this image
             generated_text = processor.batch_decode(outputs, skip_special_tokens=True)[0].strip()
             image_description = generated_text
             image.save('./upload.png','png')
-            image_description += 'The text in this image: '+ translate_image_to_text('./upload.png')
+            translate_text = translate_image_to_text('./upload.png')
+            if len(translate_text.strip()) > 0: 
+                image_description += 'The text in this image: ' + translate_text
             print(image_description)
             description_arr.append(image_description)
         del model
