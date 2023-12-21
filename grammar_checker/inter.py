@@ -37,6 +37,7 @@ def paraphrase(input):
     model = model.to(device)
     tokenizer = BartTokenizer.from_pretrained('eugenesiow/bart-paraphrase')
     batch = tokenizer(input, return_tensors='pt', padding=True, truncation=True)
+    batch = batch.to(device)
     generated_ids = model.generate(batch['input_ids'])
     generated_sentence = tokenizer.batch_decode(generated_ids, skip_special_tokens=True)
     print(time.time() - start)

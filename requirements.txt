@@ -11,3 +11,4 @@ streamlit
 selenium
 Pillow
 opencv-python
+sentencepiece

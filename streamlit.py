@@ -5,7 +5,7 @@ from grammar_checker.inter import generate_html
 from grammar_checker.extract2 import extract_from_html
 from image_to_text.demo_instructblip import generate_image_description
 from exemplar_generator.inference.generate_writing import generate_writing_without_finetune
-
+from essay_grading.inference import grade_essay
 
 @st.cache_data
 def image_to_text(images_paths):
@@ -49,7 +49,7 @@ def generate_correction_html(answer):
 @st.cache_data
 def grade_answer(question, answer):
     # grade the answer
-    feedback = "This is the feedback."
+    feedback = grade_essay(question, answer)
     return feedback
 
 
@@ -134,4 +134,4 @@ with tab2:
             # grade the answer
             feedback = grade_answer(question, answer)
             st.write("💡 Feedback:")
-            st.markdown(f"<div style='background-color: #f0f0f0; padding: 30px 30px 30px 30px;'>{feedback}</div>", unsafe_allow_html=True)
+            st.markdown(f"<div style='background-color: #f0f0f0; padding: 30px 30px 30px 30px; color: black; border-radius: 8px;'>{feedback}</div>", unsafe_allow_html=True)
