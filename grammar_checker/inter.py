@@ -3,6 +3,8 @@ import time
 import torch
 from transformers import BartForConditionalGeneration, BartTokenizer
 import difflib
+from grammar_checker.extract2 import extract_from_html
+
 
 def find_diff(text1, text2, filename):
     text1 = text1.split('.')
@@ -44,17 +46,29 @@ def paraphrase(input):
     return generated_sentence
 
 def generate_html(raw_text):
-    grammar_output = grammar_correction(raw_text)
-    grammar_output = grammar_output.split('.')
-    grammar_output = [x + '.' for x in grammar_output]
-    grammar_output = grammar_output[:-1]
-    print(grammar_output)
-    paraphrase_output = paraphrase(grammar_output)
-    print(paraphrase_output)
-    p_out = ''
-    for item in paraphrase_output:
-        p_out = p_out + item
-        if(p_out[-1] != '.'):
-            p_out += '.'
-    print(p_out)
-    find_diff(raw_text, p_out, "./grammar_checker/1213_diff.html")
+    separate = raw_text.split('\n')
+    while True:
+        try:
+            separate.remove('')
+        except:
+            print("finish removing empty")
+            break
+    print(len(separate))
+    arr = []
+    for p in separate:
+        grammar_output = grammar_correction(p)
+        grammar_output = grammar_output.split('.')
+        grammar_output = [x + '.' for x in grammar_output]
+        grammar_output = grammar_output[:-1]
+        print(grammar_output)
+        paraphrase_output = paraphrase(grammar_output)
+        print(paraphrase_output)
+        p_out = ''
+        for item in paraphrase_output:
+            p_out = p_out + item
+            if(p_out[-1] != '.'):
+                p_out += '.'
+        find_diff(raw_text, p_out, "./grammar_checker/1213_diff.html")
+        data = extract_from_html()
+        arr.append(data)
+    return arr

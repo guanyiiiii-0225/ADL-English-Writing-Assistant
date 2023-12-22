@@ -7,7 +7,6 @@ import pandas as pd
 import os
 
 
-
 def extract_from_html():
     edge_options = Options()
     edge_options.add_argument('--headless')

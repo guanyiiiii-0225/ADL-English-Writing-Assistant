@@ -32,12 +32,14 @@ def generate_example(question):
     example = generate_writing_without_finetune(question)
     return example
 
-@st.cache_data
+# @st.cache_data
 def generate_correction_html(answer):
     # generate the correction
-    generate_html(answer)
+    list_data = generate_html(answer)
+    data = ''
+    for item in list_data:
+        data = data + "<span>&nbsp;&nbsp;&nbsp;&nbsp;</span>" + item + "<br><br>"
     correction_html = "<div style='background-color: #f0f0f0; padding: 30px 30px 30px 30px; word-wrap:break-word'>"
-    data = extract_from_html()
     print(data.count("diff_add"), data.count("diff_chg"), data.count("diff_sub"))
     data = data.replace("&nbsp;", " ")
     correction_html += "<strong>We have " + str(data.count("diff_add")+data.count("diff_chg")+data.count("diff_sub")) + " suggestions for your essay! </strong><br>"
@@ -110,7 +112,7 @@ with tab1:
 with tab2:
     st.header("Essay grader 💯")
     st.write("Please upload your answer.")
-    answer = st.text_area("Your answer", height=100)
+    answer = st.text_area("Your answer", height=200)
     
     # calculate the words they used
     words = answer.split()
