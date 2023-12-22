@@ -73,8 +73,8 @@ def inference_raw(pipe, tokenizer, problem, content, examples):
     sequences = pipe(
         prompt,
         do_sample=True,
-        top_k=10,
-        temperature=0.001,
+        top_p=0.9,
+        temperature=0.5,
         num_return_sequences=1,
         eos_token_id=tokenizer.eos_token_id,
         pad_token_id=tokenizer.pad_token_id,
@@ -111,7 +111,7 @@ def inference_raw(pipe, tokenizer, problem, content, examples):
 
 
 def test(test_data_path, example_data_path, output_path):
-    model_name = "hfl/chinese-llama-2-7b-16k"
+    model_name = "hfl/chinese-alpaca-2-13b-16k"
 
     quant_config = BitsAndBytesConfig(
         load_in_4bit=True,
@@ -128,7 +128,7 @@ def test(test_data_path, example_data_path, output_path):
 
     dataset = load_dataset("json", data_files={"test": test_data_path, "example": example_data_path})
 
-    tokenizer = AutoTokenizer.from_pretrained("hfl/chinese-llama-2-7b-16k", use_fast=False)
+    tokenizer = AutoTokenizer.from_pretrained("hfl/chinese-alpaca-2-13b-16k", use_fast=False)
 
     model = AutoModelForCausalLM.from_pretrained(
         model_name, quantization_config=quant_config, torch_dtype=torch.bfloat16
@@ -146,7 +146,7 @@ def test(test_data_path, example_data_path, output_path):
 
     answers = []
 
-    for x in dataset["example"]:
+    for x in dataset["test"]:
         # output = inference(model, tokenizer, x["problem"], x["content"], dataset["example"])
         output = inference_raw(pipe, tokenizer, x["problem"], x["content"], dataset["example"])
         print(output)
@@ -161,7 +161,7 @@ def test(test_data_path, example_data_path, output_path):
     json.dump(answers, of, ensure_ascii=False)
     
 def grade_essay(problem: str, content: str):
-		model_name = "hfl/chinese-llama-2-7b-16k"
+		model_name = "hfl/chinese-alpaca-2-13b-16k"
 		quant_config = BitsAndBytesConfig(
         load_in_4bit=True,
         bnb_4bit_compute_dtype=torch.bfloat16,
@@ -172,7 +172,7 @@ def grade_essay(problem: str, content: str):
 		example_data_path = "./essay_grading/dataset/example.jsonl"
 		dataset = load_dataset("json", data_files={"example": example_data_path})
 
-		tokenizer = AutoTokenizer.from_pretrained("hfl/chinese-llama-2-7b-16k", use_fast=False)
+		tokenizer = AutoTokenizer.from_pretrained("hfl/chinese-alpaca-2-13b-16k", use_fast=False)
 
 		model = AutoModelForCausalLM.from_pretrained(
         model_name, quantization_config=quant_config, torch_dtype=torch.bfloat16
