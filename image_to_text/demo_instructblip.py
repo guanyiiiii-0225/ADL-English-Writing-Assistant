@@ -10,13 +10,13 @@ def generate_image_description(images_paths, prompt="Can you describe this image
     processor = InstructBlipProcessor.from_pretrained("Salesforce/instructblip-vicuna-7b")
     
     description_arr = []
+    model = InstructBlipForConditionalGeneration.from_pretrained("Salesforce/instructblip-vicuna-7b", load_in_8bit=True, device_map={"": 0}, torch_dtype=torch.bfloat16)
     for image_path in images_paths:
         #image = Image.open(image_path).convert('RGB')
         # convert the image to text
         #image_description = "This is an image."
         with torch.no_grad():
             image = Image.open(image_path).convert("RGB")
-            model = InstructBlipForConditionalGeneration.from_pretrained("Salesforce/instructblip-vicuna-7b", load_in_8bit=True, device_map={"": 0}, torch_dtype=torch.bfloat16)
             inputs = processor(images=image, text=prompt, return_tensors="pt").to(device="cuda", dtype=torch.bfloat16)
             outputs = model.generate(
                 **inputs,
@@ -37,9 +37,9 @@ def generate_image_description(images_paths, prompt="Can you describe this image
                 image_description += 'The text in this image: ' + translate_text
             print(image_description)
             description_arr.append(image_description)
-        del model
-        gc.collect()
-        torch.cuda.empty_cache()
+    del model
+    gc.collect()
+    torch.cuda.empty_cache()
     
 
 

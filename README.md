@@ -12,7 +12,7 @@ conda install pytorch==2.1.0 torchvision==0.16.0 torchaudio==2.1.0 pytorch-cuda=
 
 ```
 pip install -r requirements.txt
-sudo apt install xcilp
+sudo apt install xclip
 ```
 
 ```
