@@ -4,6 +4,7 @@ import torch
 from transformers import BartForConditionalGeneration, BartTokenizer
 import difflib
 from grammar_checker.extract2 import extract_from_html
+import gc
 
 
 def find_diff(text1, text2, filename):
@@ -30,6 +31,9 @@ def grammar_correction(input):
                 )
     results = corrector(input)
     print(time.time() - start)
+    del corrector
+    gc.collect()
+    torch.cuda.empty_cache()
     return results[0]['generated_text']
 
 def paraphrase(input):
@@ -43,6 +47,9 @@ def paraphrase(input):
     generated_ids = model.generate(batch['input_ids'])
     generated_sentence = tokenizer.batch_decode(generated_ids, skip_special_tokens=True)
     print(time.time() - start)
+    del model
+    gc.collect()
+    torch.cuda.empty_cache()
     return generated_sentence
 
 def generate_html(raw_text):

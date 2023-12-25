@@ -12,7 +12,7 @@ def extract_from_html():
     edge_options.add_argument('--headless')
     driver = webdriver.Edge(options=edge_options)
     # Need absolute address in this function
-    driver.get(os.path.abspath(r'grammar_checker/1213_diff.html'))
+    driver.get("file://" + os.path.abspath(r'grammar_checker/1213_diff.html'))
 
     td = driver.find_elements(By.CSS_SELECTOR, 'td.diff_header + td')
     data = ""
