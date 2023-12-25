@@ -11,6 +11,7 @@ def generate_image_description(images_paths, prompt="Can you describe this image
     
     description_arr = []
     model = InstructBlipForConditionalGeneration.from_pretrained("Salesforce/instructblip-vicuna-7b", load_in_8bit=True, device_map={"": 0}, torch_dtype=torch.bfloat16)
+    translate_text = ''
     for image_path in images_paths:
         #image = Image.open(image_path).convert('RGB')
         # convert the image to text
@@ -32,9 +33,14 @@ def generate_image_description(images_paths, prompt="Can you describe this image
             generated_text = processor.batch_decode(outputs, skip_special_tokens=True)[0].strip()
             image_description = generated_text
             image.save('./upload.png','png')
-            translate_text = translate_image_to_text('./upload.png')
-            if len(translate_text.strip()) > 0: 
-                image_description += 'The text in this image: ' + translate_text
+
+            new_translate_text = translate_image_to_text('./upload.png')
+
+            if new_translate_text != translate_text:
+                translate_text = new_translate_text
+                if len(translate_text.strip()) > 0: 
+                    image_description += 'The text in this image: ' + translate_text
+                    
             print(image_description)
             description_arr.append(image_description)
     del model
