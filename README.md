@@ -4,6 +4,7 @@ English composition presents a formidable challenge for students. In response, w
 
 In the usage scenario we've designed, users can choose from two options: (1) Essay Generation Workflow, where they generate sample essays based on specified essay prompts; and (2) Essay Correction Workflow, where we offer grading and advice on essays composed by the users. The figure below illustrates the structural framework of our English Writing Assistant.
 
+<img src='framework.png' width='60%'>
 
 ## Project Structure/Folder Structure
 ```
