@@ -37,8 +37,9 @@ class ScriptArguments:
 def formatting_prompts_func(example):
     inputs = []
     for question in example['question']:
-        system_prompt = "You are an artificial intelligence English writing assistant. The following are English composition test questions. You will provide answers that are useful, safe, detailed, and polite. Please provide examples of good writing for the following English essay questions. The narrative of the essay conforms to the answer instructions, the content is complete, and the organization is coherent; the grammar, sentence structure, word usage, and spelling are all good."
-        text = f"<s>[INST]<<SYS>> {system_prompt} <</SYS>> {question}[/INST]"
+        # system_prompt = "You are an artificial intelligence English writing assistant. The following are English composition test questions. You will provide answers that are useful, safe, detailed, and polite. Please provide examples of good writing for the following English essay questions. The narrative of the essay conforms to the answer instructions, the content is complete, and the organization is coherent; the grammar, sentence structure, word usage, and spelling are all good."
+        system_prompt = ""
+        text = f"<s>[INST] <<SYS>>\n{system_prompt}\n<</SYS>>\n\n{question} [/INST]"
         inputs.append(text)
     example['input'] = inputs
     return example
@@ -94,7 +95,7 @@ for i in tqdm(range(len(dataset))):
         **tokenized_input,
         generation_config=GenerationConfig(
             do_sample=True,
-            max_new_tokens=512,
+            max_new_tokens=1600,
             top_p=0.99,
             temperature=1e-8,
         )
@@ -107,7 +108,7 @@ for i in tqdm(range(len(dataset))):
 print(outputs_list)
 
 # Step 6: Save the outputs
-with open(script_args.output_path, 'w') as f:
+with open(script_args.output_path, 'w', encoding='utf-8') as f:
     json.dump(outputs_list, f, ensure_ascii=False)
 
 

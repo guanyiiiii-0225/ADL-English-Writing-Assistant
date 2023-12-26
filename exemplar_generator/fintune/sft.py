@@ -76,15 +76,8 @@ class ScriptArguments:
 def formatting_prompts_func(example):
     output_texts = []
     for i in range(len(example['question'])):
-        system_prompt = "You are an artificial intelligence English writing assistant. The following are English composition test questions. You will provide answers that are useful, safe, detailed, and polite. Please provide examples of good writing for the following English essay questions. The narrative of the essay conforms to the answer instructions, the content is complete, and the organization is coherent; the grammar, sentence structure, word usage, and spelling are all good."
-        text = f"<s>
-                    [INST] 
-                        <<SYS>> {system_prompt} <</SYS>> 
-                        {example['question'][i]} 
-                    [/INST] 
-                    {example['answer'][i]} 
-                </s>"
-        
+        system_prompt = ""
+        text = f"<s>[INST] <<SYS>>\n{system_prompt}\n<</SYS>>\n\n{example['question'][i]} [/INST]\n{example['answer'][i]} </s>"
         output_texts.append(text)
     return output_texts
 
