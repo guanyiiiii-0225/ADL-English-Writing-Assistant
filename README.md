@@ -1,4 +1,10 @@
 # 2023-ADL-Final
+## Project description
+English composition presents a formidable challenge for students. In response, we present an English Writing Assistant, designed to improve high school students' English writing skills for the General Scholastic Ability Test. Addressing the challenge of English composition, the tool features two main functions: generating exemplary essays using the InstructBLIP Image-to-Text Conversion system integrated with the Llama language model, and critiquing student essays with the T5 model, the bart-paraphrase model, and the Chinese alpaca model. This innovative approach not only provides students with model essays but also offers personalized feedback, significantly enhancing their English writing abilities.
+
+In the usage scenario we've designed, users can choose from two options: (1) Essay Generation Workflow, where they generate sample essays based on specified essay prompts; and (2) Essay Correction Workflow, where we offer grading and advice on essays composed by the users. The figure below illustrates the structural framework of our English Writing Assistant.
+
+
 ## Project Structure/Folder Structure
 ```
 ___
